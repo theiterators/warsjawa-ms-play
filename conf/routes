@@ -1,0 +1,1 @@
+GET / controllers.OpenGraphFetcher.index(login: String, authToken: String)

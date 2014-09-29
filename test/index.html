@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>WebSocket Test</title>
+  </head>
+  <body>
+    <form id="loginform">
+      <input id="login" placeholder="Login" />
+      <input id="authToken" placeholder="Auth token" />
+      <button type="submit">Login</button>
+    </form>
+
+    <form id="urlform">
+      <input id="url" placeholder="URL" />
+      <button type="submit">Ask</button>
+    </form>
+
+    <ul id="messages">
+    </ul>
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-git2.min.js"></script>
+    <script language="javascript" type="text/javascript">
+      $(function() {
+      ws = null
+
+      $('#loginform').submit(function(){
+      ws = new WebSocket("ws://localhost:9000" + "?login=" + $('#login').val() + "&authToken=" + $('#authToken').val())
+      ws.onmessage = function(msg) {
+      $('<li />').text(msg.data).appendTo('#messages')
+      }
+      return false;
+      })
+
+      $('#urlform').submit(function(){
+      message = {urls: $('#url').val().split(" ")}
+      ws.send(JSON.stringify(message))
+      $('#url').val("").focus()
+      return false;
+      })
+      })
+    </script>
+  </body>
+</html>
